@@ -1,0 +1,43 @@
+import React from "react";
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, Avatar } from '@ui-kitten/components';
+import AppConfig from '../../constants/AppConfig';
+
+interface Props {
+    title: string;
+    img: string;
+    onPress: ()=> void
+}
+
+const NewsHeading: React.FC<Props> = ({ title, img, onPress }) => {
+
+    return (
+        <TouchableOpacity style={styles.mainContainer} onPress={onPress}>
+            <Avatar source={{ uri: img }} size="large" style={styles.imageStyle} />
+            <Text category='h6' style={styles.titleStyle}>{title}</Text>
+        </TouchableOpacity>
+    )
+}
+
+export default NewsHeading
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        margin: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    imageStyle: {
+        width: AppConfig.windowWidth * 0.2,
+        height: AppConfig.windowWidth * 0.2,
+        borderRadius: 0,
+        margin: 10
+    },
+    titleStyle: {
+        flex: 1,
+        margin: 10
+    }
+})
