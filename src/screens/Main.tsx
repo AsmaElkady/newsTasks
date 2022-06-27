@@ -17,13 +17,14 @@ const Main: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const [search, setSearch] = useState<boolean>(false)
     const [searchValue, setSearchValue] = useState<string>('')
+    const [refresh, setRefresh] = useState<boolean>(false)
     const navigation = useNavigation<StackNavigationProp<NewsStackParamList, "Main">>();
 
     useEffect(() => {
         if (!search && totalItems >= count) {
             getData()
         }
-    }, [page])
+    }, [page, refresh])
 
     useEffect(() => {
         if (searchValue.length > 0 && search) {
@@ -80,6 +81,7 @@ const Main: React.FC = () => {
                     renderItem={renderItem}
                     initialNumToRender={10}
                     refreshing={loading}
+                    onRefresh={()=> setRefresh(!refresh)}
                     onEndReachedThreshold={2}
                     onEndReached={async () => await setPage(page + 1)}
                 />
