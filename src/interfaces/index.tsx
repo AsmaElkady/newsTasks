@@ -13,3 +13,10 @@ export interface ISource {
     id: any,
     name: string
 }
+
+export interface ISearch{
+    value: string,
+    onChangeText: Function,
+    placeholder: string,
+    disable?: boolean
+}
