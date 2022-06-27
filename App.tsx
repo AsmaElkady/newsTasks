@@ -16,9 +16,9 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import Main from './src/screens/Main';
+import MainNavigation from './src/navigation/index';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider  } from '@ui-kitten/components';
+import { ApplicationProvider } from '@ui-kitten/components';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,12 +28,13 @@ const App = () => {
   };
 
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Main />
+    <SafeAreaView style={{ flex: 1 }} >
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <MainNavigation />
+      </ApplicationProvider>
     </SafeAreaView>
-    </ApplicationProvider>
+
   );
 };
 
