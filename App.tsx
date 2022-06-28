@@ -18,7 +18,10 @@ import {
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainNavigation from './src/navigation/index';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './src/constants/translations';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,13 +31,17 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }} >
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <MainNavigation />
-      </ApplicationProvider>
-    </SafeAreaView>
-
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <SafeAreaView style={{ flex: 1 }} >
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <I18nextProvider i18n={i18n}>
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+            <MainNavigation />
+          </I18nextProvider>
+        </ApplicationProvider>
+      </SafeAreaView>
+    </>
   );
 };
 
