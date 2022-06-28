@@ -1,17 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, Avatar } from '@ui-kitten/components';
 import AppConfig from '../constants/AppConfig';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from "@react-navigation/stack";
 import { NewsStackParamList } from '../navigation';
 import { INews } from '../interfaces';
+import { useTranslation } from "react-i18next";
 import moment from 'moment';
 
 type newDetailsRouteType = RouteProp<NewsStackParamList, 'NewsDetails'>
 
 const NewsDetails: React.FC = () => {
+    const { t } = useTranslation();
+    const navigation = useNavigation<StackNavigationProp<NewsStackParamList, "NewsDetails">>();
     const route = useRoute<newDetailsRouteType>()
     const details: INews = route.params.details
+
+    useEffect(() => {
+        navigation.setOptions({
+          title: t("NewsDetails"),
+        });
+      }, [ navigation]);
 
     return (
         <ScrollView style={styles.mainContainer}>

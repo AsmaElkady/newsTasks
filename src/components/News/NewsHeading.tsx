@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Avatar } from '@ui-kitten/components';
 import AppConfig from '../../constants/AppConfig';
+import { useTranslation } from "react-i18next";
 
 interface Props {
     title: string;
@@ -10,11 +11,13 @@ interface Props {
 }
 
 const NewsHeading: React.FC<Props> = ({ title, img, onPress }) => {
+    const {i18n} = useTranslation()
+    const selectedLang = i18n.language
 
     return (
         <TouchableOpacity style={styles.mainContainer} onPress={onPress}>
             <Avatar source={{ uri: img }} size="large" style={styles.imageStyle} />
-            <Text category='h6' style={styles.titleStyle}>{title}</Text>
+            <Text category='h6' style={[styles.titleStyle, {textAlign : selectedLang == 'ar' ? 'center' : 'left'}]}>{title}</Text>
         </TouchableOpacity>
     )
 }
@@ -38,6 +41,6 @@ const styles = StyleSheet.create({
     },
     titleStyle: {
         flex: 1,
-        margin: 10
+        margin: 10,
     }
 })

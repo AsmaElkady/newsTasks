@@ -3,10 +3,12 @@ import { View, FlatList, ListRenderItem } from 'react-native';
 import NewsHeading from '../components/News/NewsHeading';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProp, } from "@react-navigation/stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { NewsStackParamList } from '../navigation';
 import { INews } from '../interfaces';
-import Search from '../components/Inputs/Search'
+import Search from '../components/Inputs/Search';
+import { useTranslation } from "react-i18next";
+import AppConfig from "../constants/AppConfig";
 
 const Main: React.FC = () => {
     const [news, setNews] = useState<INews[]>([])
@@ -19,6 +21,15 @@ const Main: React.FC = () => {
     const [searchValue, setSearchValue] = useState<string>('')
     const [refresh, setRefresh] = useState<boolean>(false)
     const navigation = useNavigation<StackNavigationProp<NewsStackParamList, "Main">>();
+    const { t, i18n } = useTranslation();
+    const selectedLang = i18n.language;
+    const API = (selectedLang == 'ar' ? AppConfig.ArabicAPI : AppConfig.EnglishAPI)+ AppConfig.APIKey
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerShown: false
+        });
+    }, [navigation]);
 
     useEffect(() => {
         if (!search && totalItems >= count) {
@@ -37,7 +48,7 @@ const Main: React.FC = () => {
 
     const getData: () => void = () => {
         setLoading(true)
-        axios.get<INews[]>('https://newsapi.org/v2/top-headlines?country=us&apiKey=6172c905911f4f77af1edb2f0df4d25c&pageSize=10&page=' + page)
+        axios.get<INews[]>(API + '&pageSize=10&page=' + page /* + '&language=' + selectedLang */)
             .then(async (response: AxiosResponse) => {
                 console.log(response)
                 setLoading(false)
@@ -53,7 +64,7 @@ const Main: React.FC = () => {
 
     const getSearchData: () => void = () => {
         setLoading(true)
-        axios.get<INews[]>('https://newsapi.org/v2/top-headlines?country=us&apiKey=6172c905911f4f77af1edb2f0df4d25c&q=' + searchValue)
+        axios.get<INews[]>(API + '&q=' + searchValue /* + '&language=' + selectedLang */)
             .then(async (response: AxiosResponse) => {
                 setLoading(false)
                 if (response.status == 200) {
@@ -74,14 +85,14 @@ const Main: React.FC = () => {
 
     return (
         <View>
-            <Search value={searchValue} placeholder="Search" onChangeText={(e: string) => { e == '' ? (setSearch(false), setSearchValue(e)) : (setSearch(true), setSearchValue(e), setPage(1)) }} />
+            <Search value={searchValue} placeholder={t("Inputs.Search")} onChangeText={(e: string) => { e == '' ? (setSearch(false), setSearchValue(e)) : (setSearch(true), setSearchValue(e), setPage(1)) }} />
             <View style={{ paddingBottom: 120 }}>
                 <FlatList
                     data={search ? searchNews : news}
                     renderItem={renderItem}
                     initialNumToRender={10}
                     refreshing={loading}
-                    onRefresh={()=> setRefresh(!refresh)}
+                    onRefresh={() => setRefresh(!refresh)}
                     onEndReachedThreshold={2}
                     onEndReached={async () => await setPage(page + 1)}
                 />
