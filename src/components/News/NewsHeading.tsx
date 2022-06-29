@@ -15,9 +15,9 @@ const NewsHeading: React.FC<Props> = ({ title, img, onPress }) => {
     const selectedLang = i18n.language
 
     return (
-        <TouchableOpacity style={styles.mainContainer} onPress={onPress}>
+        <TouchableOpacity style={[styles.mainContainer]} onPress={onPress}>
             <Avatar source={{ uri: img }} size="large" style={styles.imageStyle} />
-            <Text category='h6' style={[styles.titleStyle, {textAlign : selectedLang == 'ar' ? 'center' : 'left'}]}>{title}</Text>
+            <Text category='h6' status="info" style={[styles.titleStyle, {textAlign : selectedLang == 'ar' ? 'center' : 'left'}]}>{title}</Text>
         </TouchableOpacity>
     )
 }
@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         margin: 10,
-        borderWidth: 1,
-        borderRadius: 5,
+        borderWidth: 2,
+        borderRadius: 15,
         flexDirection: 'row',
         alignItems: 'center',
     },

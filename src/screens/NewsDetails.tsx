@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import { View, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect } from "react";
+import { View, ScrollView, useColorScheme, StyleSheet, Appearance } from 'react-native';
 import { Text, Avatar } from '@ui-kitten/components';
 import AppConfig from '../constants/AppConfig';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
@@ -16,17 +16,19 @@ const NewsDetails: React.FC = () => {
     const navigation = useNavigation<StackNavigationProp<NewsStackParamList, "NewsDetails">>();
     const route = useRoute<newDetailsRouteType>()
     const details: INews = route.params.details
+    const mode = Appearance.getColorScheme()
+    const scheme = useColorScheme()
 
     useEffect(() => {
         navigation.setOptions({
-          title: t("NewsDetails"),
+            title: t("NewsDetails"),
         });
-      }, [ navigation]);
+    }, [navigation]);
 
     return (
         <ScrollView style={styles.mainContainer}>
             <Avatar source={{ uri: details.urlToImage }} style={styles.imageStyle} />
-            <View style={styles.infoStyle}>
+            <View style={[styles.infoStyle, { backgroundColor: mode == 'dark' ? 'black' : '#F2F2F2' }]}>
                 <Text category='h4' style={styles.titleStyle}>{details.title}</Text>
                 <View style={styles.metadataStyle}>
                     <Text category='c1'>Author: {details.author}</Text>
@@ -44,7 +46,7 @@ export default NewsDetails
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: 'white'
+        // backgroundColor: 'white',
     },
     imageStyle: {
         width: AppConfig.windowWidth,
@@ -56,18 +58,20 @@ const styles = StyleSheet.create({
         marginTop: -AppConfig.windowHeight * 0.03,
         borderTopRightRadius: 25,
         borderTopLeftRadius: 25,
-        backgroundColor: 'white',
         flex: 1,
         padding: '5%',
-        elevation: 20
+        elevation: 20,
+        height: '100%',
+        alignItems: 'flex-start'
     },
     titleStyle: {
         flex: 1,
+        textAlign: 'center'
     },
     metadataStyle: {
         flex: 1,
-        alignItems: 'flex-start',
-        paddingVertical: '5%'
+        paddingVertical: '5%',
+        alignItems: 'flex-start'
     },
     contentStyle: {
         lineHeight: 24

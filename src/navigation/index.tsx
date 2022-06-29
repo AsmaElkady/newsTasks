@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
+import { Appearance } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import NewsDetails from '../screens/NewsDetails';
 import { INews } from '../interfaces';
 import TabNavigator from './Tabs';
@@ -16,9 +17,10 @@ export type NewsStackParamList = {
 const Stack = createNativeStackNavigator<NewsStackParamList>();
 
 const MainNavigation = () => {
+    const mode = Appearance.getColorScheme();
     return (
         <Suspense>
-        <NavigationContainer>
+        <NavigationContainer theme={mode == "dark" ? DarkTheme : DefaultTheme}>
             <Stack.Navigator
                 initialRouteName='TabNavigator'
                 screenOptions={{
