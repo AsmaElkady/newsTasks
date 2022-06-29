@@ -1,9 +1,11 @@
 {
     "translation": {
         "News": "الأخبار",
-        "News Details": "تفاصيل الخبر",
+        "NewsDetails": "تفاصيل الخبر",
         "Settings": "الإعدادات",
         "Language": "قم باختيار اللغة",
+        "Author": "الكاتب :",
+        "Source": "المصدر :",
         "Inputs": {
             "Search": "ابحث"
         }

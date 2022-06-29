@@ -22,6 +22,7 @@ const NewsDetails: React.FC = () => {
     useEffect(() => {
         navigation.setOptions({
             title: t("NewsDetails"),
+            headerBackTitleVisible: false
         });
     }, [navigation]);
 
@@ -31,8 +32,8 @@ const NewsDetails: React.FC = () => {
             <View style={[styles.infoStyle, { backgroundColor: mode == 'dark' ? 'black' : '#F2F2F2' }]}>
                 <Text category='h4' style={styles.titleStyle}>{details.title}</Text>
                 <View style={styles.metadataStyle}>
-                    <Text category='c1'>Author: {details.author}</Text>
-                    <Text category='c1'>Source: {details.source.name}</Text>
+                    <Text category='c1'>{t('Author') + details.author}</Text>
+                    <Text category='c1'>{t('Source') + details.source.name}</Text>
                     <Text category='c1'>{moment(details.publishedAt).fromNow()}</Text>
                 </View>
                 <Text category='s1' style={styles.contentStyle}>{details.content}</Text>

@@ -1,9 +1,11 @@
 {
     "translation": {
         "News": "News",
-        "News Details": "News Details",
+        "NewsDetails": "News Details",
         "Settings": "Settings",
         "Language": "Select your Language",
+        "Author": "Author",
+        "Source": "Source",
         "Inputs": {
             "Search": "Search"
         }
