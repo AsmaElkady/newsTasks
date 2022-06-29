@@ -15,7 +15,7 @@ const NewsDetails: React.FC = () => {
     const { t, i18n } = useTranslation();
     const navigation = useNavigation<StackNavigationProp<NewsStackParamList, "NewsDetails">>();
     const route = useRoute<newDetailsRouteType>()
-    const details: INews = route.params.details
+    const details = route.params
     const mode = Appearance.getColorScheme()
     const scheme = useColorScheme()
     const selectedLang = i18n.language
@@ -34,7 +34,7 @@ const NewsDetails: React.FC = () => {
                 <Text category='h4' style={styles.titleStyle}>{details.title}</Text>
                 <View style={styles.metadataStyle}>
                     <Text category='c1'>{t('Author') + details.author}</Text>
-                    <Text category='c1'>{t('Source') + details.source.name}</Text>
+                    <Text category='c1'>{t('Source') + details.source}</Text>
                     <Text category='c1'>{moment(details.publishedAt).fromNow()}</Text>
                 </View>
                 <Text category='s1' style={styles.contentStyle}>{selectedLang == 'ar' ? details.description : details.content}</Text>

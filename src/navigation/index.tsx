@@ -10,7 +10,17 @@ import TabNavigator from './Tabs';
 export type NewsStackParamList = {
     TabNavigator: undefined,
     Main: undefined,
-    NewsDetails: {details: INews},
+    //NewsDetails: {details: INews},
+    NewsDetails: {
+        title: string,
+        author: string,
+        description: string,
+        url: string,
+        urlToImage: string,
+        publishedAt: string,
+        content: string,
+        source: string
+    }
     Settings: undefined
 }
 
@@ -18,19 +28,44 @@ const Stack = createNativeStackNavigator<NewsStackParamList>();
 
 const MainNavigation = () => {
     const mode = Appearance.getColorScheme();
+    const config = {
+        screens: {
+            NewsDetails: {
+                path: "NewsDetails/:title/:author/:description/:url/:urlToImage/:publishedAt/:content/:source",
+                parse: {
+                    title: (title: string) => title,
+                    author: (author: string) => author,
+                    description: (description: string) => description,
+                    url: (url: string) => url,
+                    urlToImage: (urlToImage: string) => urlToImage,
+                    publishedAt: (publishedAt: string) => publishedAt,
+                    content: (content: string) => content,
+                    source: (source: string)=> source
+                },
+
+            }
+        }
+    }
+
     return (
         <Suspense>
-        <NavigationContainer theme={mode == "dark" ? DarkTheme : DefaultTheme}>
-            <Stack.Navigator
-                initialRouteName='TabNavigator'
-                screenOptions={{
-                    gestureEnabled: true,
+            <NavigationContainer
+                theme={mode == "dark" ? DarkTheme : DefaultTheme}
+                linking={{
+                    prefixes: ["newstasks://"],
+                    config
                 }}
             >
-                <Stack.Screen name='TabNavigator' component={TabNavigator} options={{headerShown: false,}}/>
-                <Stack.Screen name="NewsDetails" component={NewsDetails} options={{headerShown: true}}/>
-            </Stack.Navigator>
-        </NavigationContainer>
+                <Stack.Navigator
+                    initialRouteName='TabNavigator'
+                    screenOptions={{
+                        gestureEnabled: true,
+                    }}
+                >
+                    <Stack.Screen name='TabNavigator' component={TabNavigator} options={{ headerShown: false, }} />
+                    <Stack.Screen name="NewsDetails" component={NewsDetails} options={{ headerShown: true }} />
+                </Stack.Navigator>
+            </NavigationContainer>
         </Suspense>
     )
 }

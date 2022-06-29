@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 import AppConfig from "../constants/AppConfig";
 
 const Main: React.FC = () => {
-    const [news, setNews] = useState<INews[]>([])
+    const [news, setNews] = useState<INews[]>([
+        {"source":{"id":null,"name":"Masrawy.com"},"author":"مصراوي","title":"ارتفاع جديد في سعر الدولار اليوم الثلاثاء بالبنوك خلال التعاملات - Masrawy - مصراوي","description":"ارتفاع جديد في سعر الدولار اليوم الثلاثاء بالبنوك خلال التعاملات | مصراوى","url":"https://www.masrawy.com/news/news-banking/details/2022/6/28/2250431/ارتفاع-جديد-في-سعر-الدولار-اليوم-الثلاثاء-بالبنوك-خلال-التعاملات-","urlToImage":"https://media.gemini.media/img/large/2018/9/6/2018_9_6_10_42_49_546.jpg","publishedAt":"2022-06-28T14:34:00Z","content":""}
+    ])
     const [searchNews, setSearchNews] = useState<INews[]>([])
     const [page, setPage] = useState<number>(1)
     const [count, setCount] = useState<number>(0)
@@ -33,16 +35,16 @@ const Main: React.FC = () => {
 
     useEffect(() => {
         if (!search && totalItems >= count) {
-            getData()
+            //getData()
         }
     }, [page, refresh])
 
     useEffect(() => {
         if (searchValue.length > 0 && search) {
             setNews([])
-            getSearchData()
+            //getSearchData()
         } else {
-            getData()
+            //getData()
         }
     }, [search, searchValue])
 
@@ -79,7 +81,18 @@ const Main: React.FC = () => {
 
     const renderItem: ListRenderItem<INews> = ({ item, index }) => {
         return (
-            <NewsHeading key={index} title={item.title} img={item.urlToImage} onPress={() => navigation.navigate('NewsDetails', { details: item })} />
+            <NewsHeading key={index} title={item.title} img={item.urlToImage} onPress={() => 
+                navigation.navigate('NewsDetails', {
+                    title: item.title,
+                    author : item.author,
+                    description: item.description,
+                    url: item.url,
+                    urlToImage: item.urlToImage,
+                    publishedAt: item.publishedAt,
+                    content: item.content,
+                    source: item.source.name
+                } )
+            } />
         )
     }
 
