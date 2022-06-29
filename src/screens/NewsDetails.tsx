@@ -12,12 +12,13 @@ import moment from 'moment';
 type newDetailsRouteType = RouteProp<NewsStackParamList, 'NewsDetails'>
 
 const NewsDetails: React.FC = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigation = useNavigation<StackNavigationProp<NewsStackParamList, "NewsDetails">>();
     const route = useRoute<newDetailsRouteType>()
     const details: INews = route.params.details
     const mode = Appearance.getColorScheme()
     const scheme = useColorScheme()
+    const selectedLang = i18n.language
 
     useEffect(() => {
         navigation.setOptions({
@@ -36,7 +37,7 @@ const NewsDetails: React.FC = () => {
                     <Text category='c1'>{t('Source') + details.source.name}</Text>
                     <Text category='c1'>{moment(details.publishedAt).fromNow()}</Text>
                 </View>
-                <Text category='s1' style={styles.contentStyle}>{details.content}</Text>
+                <Text category='s1' style={styles.contentStyle}>{selectedLang == 'ar' ? details.description : details.content}</Text>
             </View>
         </ScrollView>
     )
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
     contentStyle: {
-        lineHeight: 24
+        lineHeight: 24,
+        textAlign: 'center'
     }
 })
