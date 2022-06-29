@@ -5,6 +5,7 @@
 #import <React/RCTRootView.h>
 
 #import <React/RCTAppSetupUtils.h>
+#import <React/RCTLinkingManager.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -16,6 +17,9 @@
 
 #import <react/config/ReactNativeConfig.h>
 
+
+
+
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
@@ -24,6 +28,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
   facebook::react::ContextContainer::Shared _contextContainer;
 }
+
 @end
 #endif
 
@@ -130,4 +135,18 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 #endif
 
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
+ restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+ return [RCTLinkingManager application:application
+                  continueUserActivity:userActivity
+                    restorationHandler:restorationHandler];
+}
 @end
